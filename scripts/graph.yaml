@@ -1,0 +1,656 @@
+commands:
+  #
+  # Git Commands
+  #
+  - name: git
+    aliases:
+      - g
+    usage: Various git helpers
+
+  - name: show-at
+    parent: git
+    path: git/show-at.sh
+    aliases:
+      - sa
+    usage: Show a file at a particular git reference
+    desc: >
+      Show a file at a particular git reference where the reference may be a
+      branch, commit, tag, etc...
+    flags:
+      - type: string
+        name: ref
+        required: true
+        aliases:
+          - r
+        usage: "The git reference to show"
+      - type: string
+        name: file
+        required: true
+        aliases:
+          - f
+        usage: "The file to view at the given reference"
+
+  - name: worktree
+    parent: git
+    path: git/worktree.sh
+    aliases:
+      - wt
+    usage: Create a temporary worktree for editing.
+    desc: >
+      Creates a temporary worktree checked out to 'ref'.
+
+      If 'file' is provided a Neovim instance is opened directly to the file.
+      If no file is specified an interactive zsh instance is created.
+
+      Closing either Neovim or the zsh instance will remove the worktree.
+    flags:
+      - usage: "The git reference to show"
+        name: ref
+        required: true
+        aliases:
+          - r
+      - usage: "The file to view at the given reference"
+        name: file
+        required: false
+        aliases:
+          - f
+
+  - name: diff-intersect
+    parent: git
+    path: git/interdiff.sh
+    aliases:
+      - id
+    usage: Perform a diff only pertaining to a set of changed files
+    desc: >
+      Perform a diff by determining the files which have changed 'A' and
+      comparing this to the same set in 'B'.
+
+      This can be useful when comparing two branches of the same program, but
+      where many files in both branches have diverged.
+    flags:
+      - usage: "The base commit. The files changed in this commit will be diffed against 'B'"
+        name: a
+        required: true
+      - usage: "The change commit. The diff will show how the changed files in 'A' compare to their state in this commit"
+        name: b
+        required: true
+
+  - name: iterate
+    parent: git
+    path: git/iter.sh
+    aliases:
+      - it
+    usage: Iterate over a series of commit via rebase.
+    desc: >
+      Iterate over a series of commits via a rebase.
+
+      The ref argument is non-inclusive so postfix '^' to start the iteration
+      exactly at the specified commit.
+    flags:
+      - usage: "The git reference to show"
+        name: ref
+        required: true
+        aliases:
+          - r
+
+  - name: submodule-init
+    parent: git
+    path: git/submodule-init.sh
+    usage: Initialize and update git submodules
+    desc: >
+      Initialize and update git submodules.
+      This performs an update with the --init and --recursive flags.
+
+  - name: log-range
+    parent: git
+    path: git/log-range.sh
+    aliases:
+      - lr
+    usage: Git log over a range of lines in a source code file.
+    desc: >
+      Perform a git log for a line range in a source code file.
+      The log will display how the lines have changed over time.
+    flags:
+      - usage: The file to which start and end pertain to
+        name: file
+        required: true
+        aliases:
+          - f
+      - usage: The start line of the range
+        name: start
+        required: true
+        aliases:
+          - s
+      - usage: The end line of the range
+        name: end
+        required: true
+        aliases:
+          - e
+
+  - name: log-func
+    parent: git
+    path: git/log-func.sh
+    aliases:
+      - lf
+    usage: Git log over a series of changes to a function in a source code file.
+    desc: >
+      Perform a git log for a line range in a source code file.
+      The log will display how the lines have changed over time.
+    flags:
+      - usage: The file to which start and end pertain to
+        name: file
+        required: true
+        aliases:
+          - f
+      - usage: The name of the function
+        name: func
+        required: true
+        aliases:
+          - fu
+
+  - name: log-symbol
+    parent: git
+    path: git/log-sym.sh
+    aliases:
+      - ls
+    usage: Git log over changes to a symbol
+    desc: >
+      Perform a git log for a symbol in a source code file.
+      The log will display how the symbol has changed over time.
+    flags:
+      - usage: The source code symbol
+        name: symbol
+        required: true
+        aliases:
+          - s
+
+  #
+  # Github (gh) commands
+  #
+  - name: github
+    aliases:
+      - gh
+    usage: Various Github (gh) helpers and scripts
+
+  - name: code-review
+    parent: github
+    usage: Start a local code review for a particular pull request.
+    desc: >
+      Starts a local code review for a pull request on Github identified by the
+      pull request number.
+
+      The branch being merged is pulled locally using the 'gh pr checkout'
+      command.
+
+      The base of the branch to be merged is tagged with `PR_BASE_COMMIT` to
+      identify the where the pull request changes start.
+    path: gh/code-review.sh
+    flags:
+      - usage: The repository, in {org}/{repo} syntax, where the PR was opened.
+        name: repo
+        required: true
+        aliases:
+          - r
+      - usage: The pull request number
+        name: number
+        required: true
+        aliases:
+          - n
+
+  - name: pr-commit
+    parent: github
+    usage: Identify the pull request a commit was introduced in.
+    desc: >
+      Identify the pull request a commit was introduced in using the Github API.
+    path: gh/pr-commit.sh
+    flags:
+      - usage: The repository, in {org}/{repo} syntax, where the PR was opened.
+        name: repo
+        required: true
+        aliases:
+          - r
+      - usage: The commit ref
+        name: commit
+        required: true
+        aliases:
+          - c
+
+  #
+  # K8s Commands
+  #
+  - name: k8s
+    aliases:
+      - k
+    usage: Various Kubernetes helpers
+
+  - name: logs
+    parent: k8s
+    usage: Log container output using BAT for syntax highlighting
+    path: k8s/logs.sh
+    flags:
+      - usage: The kubernetes namespace to use
+        name: namespace
+        required: true
+        aliases:
+          - ns
+      - usage: The container name
+        name: container
+        required: true
+        aliases:
+          - c
+
+  - name: logs-follow
+    parent: k8s
+    usage: Log and follow container output using BAT for syntax highlighting.
+    path: k8s/logs-follow.sh
+    flags:
+      - usage: The kubernetes namespace to use
+        name: namespace
+        required: true
+        aliases:
+          - ns
+      - usage: The container name
+        name: container
+        required: true
+        aliases:
+          - c
+
+  - name: label-get
+    parent: k8s
+    usage: Get pods which match a particular label across all namespaces
+    path: k8s/label-get.sh
+    flags:
+      - usage: The label to filter by
+        name: label
+        required: true
+        aliases:
+          - l
+
+  - name: label-delete
+    parent: k8s
+    usage: Delete pods which match a particular label across all namespaces
+    path: k8s/label-delete.sh
+    flags:
+      - usage: The label to filter by
+        name: label
+        required: true
+        aliases:
+          - l
+
+  - name: label-describe
+    parent: k8s
+    usage: Describe pods which match a particular label across all namespaces
+    path: k8s/label-describe.sh
+    flags:
+      - usage: The label to filter by
+        name: label
+        required: true
+        aliases:
+          - l
+
+  - name: shell
+    parent: k8s
+    usage: Open a shell to the provided container
+    path: k8s/shell.sh
+    flags:
+      - usage: The kubernetes namespace to use
+        name: namespace
+        required: true
+        aliases:
+          - ns
+      - usage: The container name
+        name: container
+        required: true
+        aliases:
+          - c
+      - usage: "The shell command to use (default: /bin/sh)"
+        name: shell
+        required: false
+        aliases:
+          - s
+
+  #
+  # Kernel related commands
+  #
+  - name: kernel
+    aliases:
+      - ker
+    usage: Various commands to assist with Linux Kernel development
+    desc: >
+      Various commands to assist with Linux Kernel development
+
+      The majority of these commands expect to be ran inside a Linux kernel
+      source repository, unless noted.
+
+      Additionally, the majority of these commands assume the Linux
+      machine is a remote host reachable over SSH.
+
+  - name: mod-config
+    parent: kernel
+    usage: Create a kernel configuration based on current module list
+    desc: >
+      This command connects to the remote Kernel host and uses the enabled
+      modules to create a Kernel config file for building.
+
+      First, the local Linux repository is sync'd to the remote host.
+
+      Next, `lsmod` on the remote host is ran and a .config file is created
+      based on the remote's module configuration.
+
+      Finally, the source repo is synced back to the local host allowing it to
+      access the .config file.
+
+      After the local .config file is present a call to `build-and-deploy` can
+      be made successfully.
+    path: kernel/mod-config.sh
+    flags:
+      - usage: The remote host
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The user which creates the debug config
+        name: user
+        required: true
+        aliases:
+          - u
+
+  - name: old-config
+    parent: kernel
+    usage: Create a kernel configuration based on existing .config
+    desc: >
+      This command connects to the remote Kernel host and uses the existing
+      .config file to create a Kernel config file for building.
+
+      First, the local Linux repository is sync'd to the remote host.
+
+      Next, if a config file can be found at '/boot/config-$(uname -r)' it is
+      copied to the remote source repo and `make oldconfig` is ran. If the
+      old config cannot be found the script reports an error and halts.
+
+      Finally, the source repo is synced back to the local host allowing it to
+      access the .config file.
+
+      After the local .config file is present a call to `build-and-deploy` can
+      be made successfully.
+    path: kernel/old-config.sh
+    flags:
+      - usage: The remote host
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The user which creates the debug config
+        name: user
+        required: true
+        aliases:
+          - u
+
+  - name: build-and-deploy
+    parent: kernel
+    usage: Build and deploy a kernel to a remote host
+    desc: >
+      This command connects to the remote Kernel host and builds the Kernel
+      using the provided config file.
+
+      The Kernel is then deployed to the remote host and the host is rebooted
+      to use the new Kernel.
+
+      The built kernel and its image file is copied back to the host so remote
+      debugging can be used.
+
+      Be aware that this copy back to the host IS DESTRUCTIVE and if any changes
+      were not first pushed to the remote they maybe lost.
+
+      Also be aware that a .config should exist in the local Linux source
+      repository before attempting the build on the remote. The .config should
+      reflect the desired configuration for the remote host.
+    path: kernel/build-and-deploy.sh
+    flags:
+      - usage: The remote host in 'ssh' format
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The user to perform non-root required tasks
+        name: user
+        required: true
+        aliases:
+          - u
+
+  - name: module-config-local
+    parent: kernel
+    alias:
+      - mc
+    usage: Similar to 'module-config' command, but for local host.
+    path: kernel/mod-config-local.sh
+
+  #
+  # Rsync Commands
+  #
+  - name: rsync
+    aliases:
+      - rs
+    usage: Various Rsync helpers
+    flags:
+
+  - name: local-to-remote
+    parent: rsync
+    aliases:
+      - l2r
+    usage: Sync the current working directory to a remote destination.
+    desc: >
+      Perform a sync of the current working directory to a remote destination.
+
+      The resulting directory on the remote will be at the same exact path as
+      the local directory.
+
+      The sync IS DESTRUCTIVE and will remove any files at the remote that are
+      not present at the source.
+    path: rsync/l2r.sh
+    flags:
+      - usage: The remote host's IP address
+        name: remote
+        required: true
+        aliases:
+          - r
+
+  - name: remote-to-local
+    parent: rsync
+    aliases:
+      - r2l
+    usage: Sync the current working directory from a remote host.
+    desc: >
+      Perform a sync of a remote directory, located as the host's current
+      working directory, to the host.
+
+      The resulting directory on the host will have the exact contents present
+      on the same directory on the remote.
+
+      The sync IS DESTRUCTIVE and will remove any files at the local host that
+      are not present at the source.
+    path: rsync/r2l.sh
+    flags:
+      - usage: The remote host's IP address
+        name: remote
+        required: true
+        aliases:
+          - r
+
+  - name: copy
+    parent: rsync
+    aliases:
+      - cp
+    usage: Copy the given file or directory to a remote node
+    desc: >
+      A generalized copy command which copies the specified file to a remote
+      node using SSH.
+    path: rsync/cp.sh
+    flags:
+      - usage: The remote host in 'ssh' format
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The file system path to copy
+        name: from
+        required: true
+        aliases:
+          - f
+      - usage: The destination path on the remote, if blank use the source path.
+        name: to
+        required: false
+        aliases:
+          - t
+
+  - name: sync
+    parent: rsync
+    usage: Copy the given file or directory from the remote host to local
+    desc: >
+      A generalized copy command which syncs the specified remote file to a local
+      path using SSH.
+    path: rsync/sync.sh
+    flags:
+      - usage: The remote host in 'ssh' format
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The file system path to copy the remote file or directory to
+        name: from
+        required: true
+        aliases:
+          - f
+      - usage: The source path on the remote, if blank use the destination's path.
+        name: to
+        required: false
+        aliases:
+          - t
+
+#
+# Debugging related commands
+#
+  - name: debug
+    usage: Various helpers related to debugging software
+
+  - name: gdb-remote
+    parent: debug
+    usage: Connect to a remote gdb instance using "host:port" syntax
+    path: debug/gdb-remote.sh
+    flags:
+      - usage: The remote host in 'host:port' format
+        name: remote
+        required: true
+        aliases:
+          - r
+
+  - name: gdb-remote
+    parent: debug
+    usage: Connect to a remote gdb instance using "host:port" syntax
+    path: debug/gdb-remote.sh
+    flags:
+      - usage: The remote host in 'host:port' format
+        name: remote
+        required: true
+        aliases:
+          - r
+
+  - name: lldb-remote
+    parent: debug
+    usage: Connect to a remote lldb instance using "host:port" syntax
+    path: debug/lldb-remote.sh
+    flags:
+      - usage: The remote host in 'host:port' format
+        name: remote
+        required: true
+        aliases:
+          - r
+
+  - name: dlv-remote
+    parent: debug
+    usage: Connect to a remote dlv instance using "host:port" syntax
+    path: debug/dlv-remote.sh
+    flags:
+      - usage: The remote host in 'host:port' format
+        name: remote
+        required: true
+        aliases:
+          - r
+
+#
+# Automation
+#
+  - name: automation
+    usage: Scripts for automating server setup.
+
+  - name: fedora-linux
+    parent: automation
+    usage: Setup a Fedora Linux instance for development
+    desc: >
+      Connects to a remote Fedora Linux instance and applies an automated setup.
+
+      Once the setup is finished the instance is capable of compiling and running
+      a custom Linux kernel.
+
+      The automated setup process will interactively prompt for a password for
+      the provided user.
+    path: automation/fedora-linux.sh
+    flags:
+      - usage: The remote host
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The non-root user created for general usage
+        name: user
+        required: true
+        aliases:
+          - u
+
+  - name: rocky-linux
+    parent: automation
+    usage: Setup a Rocky/Centos/Alma Linux instance for development
+    desc: >
+      Connects to a remote Rocky Linux instance and applies an automated setup.
+
+      Once the setup is finished the instance is capable of compiling and running
+      a custom Linux kernel.
+
+      The automated setup process will interactively prompt for a password for
+      the provided user.
+    path: automation/rocky-linux.sh
+    flags:
+      - usage: The remote host
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The non-root user created for general usage
+        name: user
+        required: true
+        aliases:
+          - u
+
+  - name: gcloud-dev-box
+    parent: automation
+    usage: Deploys a Rock 9 Linux imagine using the configured gcloud CLI on the system
+    desc: >
+      Will deploy a Rock 9 gcloud optimized Linux image using the gcloud command
+      line tool available on the system.
+    path: automation/gcloud-dev-box.sh
+    flags:
+      - usage: The gcloud project to deploy into
+        name: project
+        required: true
+        aliases:
+          - p
+      - usage: The zone the vm is displayed to.
+        name: zone
+        required: true
+        aliases:
+          - z
+      - usage: The machine type of the VM
+        name: machine-type
+        required: true
+        aliases:
+          - m
