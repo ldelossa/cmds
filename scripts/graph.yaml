@@ -164,6 +164,44 @@ commands:
         aliases:
           - s
 
+  - name: introduced
+    parent: git
+    path: git/introduced.sh
+    aliases:
+      - intro
+    usage: Determine what commit a file was introduced in
+    desc: >
+      Determine what commit a file was introduced in.
+      The --file argument should specify a file located in the current repository.
+    flags:
+      - usage: The file to determine the commit for
+        name: file
+        required: true
+        aliases:
+          - f
+
+  - name: contains-tag
+    parent: git
+    path: git/contains-tag.sh
+    usage: Given a commit list the tags which contain this commit
+    flags:
+      - usage: The commit to check for tags
+        name: commit
+        required: true
+        aliases:
+          - c
+
+  - name: contains-branch
+    parent: git
+    path: git/contains-branch.sh
+    usage: Given a commit list the branches which contain this commit
+    flags:
+      - usage: The commit to check for branches
+        name: commit
+        required: true
+        aliases:
+          - c
+
   #
   # Github (gh) commands
   #
