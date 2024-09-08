@@ -11,17 +11,14 @@ sudo dnf config-manager --add-repo=https://yum.fury.io/netdevops/ && \
 
 sudo dnf install -y epel-release && sudo dnf config-manager --set-enabled crb
 
-sudo dnf install -y bat bear clang clang-tools-extra exa fd-find 	\
-				  	fuse-sshfs htop jq nmap the_silver_searcher zsh  		  	    \
-				  	rust pam-devel nnn scdoc meson flex bison procs npm 		  	\
-				  	llvm-devel gdb kitty elfutils-libelf-devel openssl-devel 	  	\
-				  	dwarves zstd wireshark ripgrep ncurses-devel 				  	\
-				  	util-linux-user git lld python3-docutils strace difftastic  	\
-				  	libbpf bc compat-lua-libs libtermkey libtree-sitter  		  	\
-				  	libvterm luajit luajit2.1-luv msgpack unibilium xsel rpm-build  \
-					perl tmux containerlab rsync tcpdump btop et bpftrace nasm 		\
-					glibc-static glibc-devel qemu-kvm libvirt virt-manager virt-install \
-					kitty-terminfo kitty-shell-integration
+sudo dnf install -y bat bear clang clang-tools-extra exa fd-find fuse-sshfs \
+					htop jq nmap the_silver_searcher zsh rust pam-devel nnn scdoc meson flex bison \
+					procs npm llvm-devel gdb kitty elfutils-libelf-devel openssl-devel dwarves zstd \
+					wireshark ripgrep ncurses-devel util-linux-user git lld python3-docutils strace \
+					difftastic libbpf bc compat-lua-libs libtermkey libtree-sitter libvterm luajit \
+					luajit2.1-luv msgpack unibilium xsel rpm-build perl tmux containerlab rsync tcpdump \
+					btop et bpftrace nasm glibc-static glibc-devel qemu-kvm libvirt virt-manager \
+					virt-install kitty-terminfo kitty-shell-integration
 
 # install container-lab
 sudo dnf config-manager --add-repo=https://yum.fury.io/netdevops/ && \

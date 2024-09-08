@@ -17,16 +17,15 @@ sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rel
 					https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
 sudo dnf install -y bat bear clang clang-tools-extra docker-compose exa fd-find \
-					fuse-sshfs fzf htop btop jq neovim nmap moby-engine \
-					powertop pv the_silver_searcher zsh gh rust  \
-					nodejs-bash-language-server nnn scdoc meson flex \
-					bison procs kubernetes-client helm npm gdb \
-					elfutils-libelf-devel openssl-devel dwarves zstd \
-					ripgrep lld python3-docutils strace difftastic zsh-syntax-highlighting \
+					fuse-sshfs fzf htop btop jq neovim nmap moby-engine powertop \
+					pv the_silver_searcher zsh gh rust nodejs-bash-language-server \
+					nnn scdoc meson flex bison procs kubernetes-client helm npm  \
+					gdb elfutils-libelf-devel openssl-devel dwarves zstd ripgrep \
+					lld python3-docutils strace difftastic zsh-syntax-highlighting \
 					bpftrace et btop pip strongswan NetworkManager-strongswan \
-					NetworkManager-strongswan-gnome json-glib \
-					inotify-tools lldb bpftool nasm glibc-static glibc-devel \
-					kitty-terminfo kitty-shell-integration
+					NetworkManager-strongswan-gnome json-glib inotify-tools lldb \
+					bpftool nasm glibc-static glibc-devel kitty-terminfo \
+					kitty-shell-integration
 
 # qemu and kvm install
 sudo dnf groupinstall -y virtualization
