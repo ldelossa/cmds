@@ -53,28 +53,6 @@ curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/z
 sudo mv /tmp/_docker /usr/share/zsh/site-functions
 sudo chown root:root /usr/share/zsh/site-functions/_docker
 
-# kind
-cd /tmp || exit
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin
-
-# k9s
-cd /tmp || exit
-curl -LO https://github.com/derailed/k9s/releases/download/v0.32.4/k9s_Linux_amd64.tar.gz
-tar -xvf k9s_Linux_amd64.tar.gz
-chmod +x ./k9s
-sudo mv ./k9s /usr/local/bin
-rm -rf k9s_Linux_amd64.tar.gz
-
-# docker buildx install
-cd /tmp || exit
-mkdir -p ~/.docker/cli-plugins
-cd ~/.docker/cli-plugins || exit
-curl -LO https://github.com/docker/buildx/releases/download/v0.14.1/buildx-v0.14.1.linux-amd64
-mv buildx* docker-buildx
-chmod u+x docker-buildx
-
 # install golang
 cd ~/git/go || exit
 git clone https://github.com/udhos/update-golang.git
@@ -87,6 +65,20 @@ cd /tmp || exit
 
 # install dlv
 /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
+
+# install k9s
+/usr/local/go/bin/go install github.com/derailed/k9s@latest
+
+# install kind
+/usr/local/go/bin/go install sigs.k8s.io/kind@latest
+
+# docker buildx install
+cd /tmp || exit
+mkdir -p ~/.docker/cli-plugins
+cd ~/.docker/cli-plugins || exit
+curl -LO https://github.com/docker/buildx/releases/download/v0.14.1/buildx-v0.14.1.linux-amd64
+mv buildx* docker-buildx
+chmod u+x docker-buildx
 
 ## setup lua language server
 cd ~/git/lua || exit
@@ -153,7 +145,7 @@ sudo chsh -s /bin/zsh "$(whoami)"
 log "Deploying dotfiles for root..."
 # configuring root user, leave dotfiles make till end, since it may return an
 # exit code despite everything being okay.
-sudo mkdir -p /root/git && sudo cp -R /home/louis/git/dotfiles /root/git/dotfiles && \
-sudo cp -R /home/louis/.slimzsh /root/.slimzsh && \
-sudo cp -R /home/louis/.fzf/ /root/.fzf && sudo cp /home/louis/.fzf.zsh /root/.fzf.zsh && \
+sudo mkdir -p /root/git && sudo cp -R $HOME/git/dotfiles /root/git/dotfiles && \
+sudo cp -R $HOME/.slimzsh /root/.slimzsh && \
+sudo cp -R $HOME/.fzf/ /root/.fzf && sudo cp $HOME/.fzf.zsh /root/.fzf.zsh && \
 sudo make -C /root/git/dotfiles all

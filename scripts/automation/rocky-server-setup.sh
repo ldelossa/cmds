@@ -168,7 +168,7 @@ sudo chsh -s /bin/zsh "$(whoami)"
 log "Deploying dotfiles for root..."
 # configuring root user, leave dotfiles make till end, since it may return an
 # exit code despite everything being okay.
-sudo mkdir -p /root/git && sudo cp -R /home/louis/git/dotfiles /root/git/dotfiles && \
-sudo cp -R /home/louis/.slimzsh /root/.slimzsh && \
-sudo cp -R /home/louis/.fzf/ /root/.fzf && sudo cp /home/louis/.fzf.zsh /root/.fzf.zsh && \
+sudo mkdir -p /root/git && sudo cp -R $HOME/git/dotfiles /root/git/dotfiles && \
+sudo cp -R $HOME/.slimzsh /root/.slimzsh && \
+sudo cp -R $HOME/.fzf/ /root/.fzf && sudo cp $HOME/.fzf.zsh /root/.fzf.zsh && \
 sudo make -C /root/git/dotfiles all
