@@ -455,6 +455,9 @@ commands:
         required: true
         aliases:
           - u
+      - usage: Reboot the target host automatically
+        name: reboot
+        required: false
 
   - name: module-config-local
     parent: kernel

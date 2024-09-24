@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# stop if errors
+set -e
+
 host=${1}
 user=${2}
+reboot=${3}
 root="root"
 
 ssh_host="${user}@${host}"
@@ -17,7 +21,7 @@ function log() {
 # push local repository to remote.
 log "Pushing local repository to remote..."
 ssh "${ssh_host}" "mkdir -p $repo || true"
-rsync -e ssh --delete -azv "$repo"/ "${ssh_host}":"$repo"
+rsync -e ssh --delete --exclude '.git' -azv "$repo"/ "${ssh_host}":"$repo"
 
 log "Building the remote kernel..."
 ssh "${ssh_host}" "cd $repo && make -j \$((\$(nproc)*2)) && make tools/lib/bpf && make tools/bpf/bpftool && ./scripts/clang-tools/gen_compile_commands.py"
@@ -37,6 +41,11 @@ log "Installing bpftool from kernel tree..."
 ssh "${root_ssh_host}" "cd $repo/tools/bpf/bpftool && make install && chown -R ${user}:${user} ."
 
 log "Syncing built kernel locally..."
-rsync -e ssh --delete -azv "${ssh_host}":"$repo"/ "$repo"/
+rsync -e ssh --delete --exclude '.git' -azv "${ssh_host}":"$repo"/ "$repo"/
 
-log "Install complete, reboot the host to enter new kernel..."
+if [[ -n $reboot ]]; then
+	log "Install complete, rebooting the host..."
+	ssh "${root_ssh_host}" "reboot"
+else
+	log "Install complete, reboot the host to enter new kernel..."
+fi

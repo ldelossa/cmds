@@ -1,4 +1,3 @@
-
 .PHONY:
 build:
 	go build .
