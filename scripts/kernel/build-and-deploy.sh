@@ -40,6 +40,9 @@ ssh "${root_ssh_host}" "cd $repo/tools/lib/bpf && make prefix=/usr install && cp
 log "Installing bpftool from kernel tree..."
 ssh "${root_ssh_host}" "cd $repo/tools/bpf/bpftool && make install && chown -R ${user}:${user} ."
 
+log "Resetting all file perms to user..."
+ssh "${root_ssh_host}" "cd $repo && chown -R ${user}:${user} ."
+
 log "Syncing built kernel locally..."
 rsync -e ssh --delete --exclude '.git' -azv "${ssh_host}":"$repo"/ "$repo"/
 
