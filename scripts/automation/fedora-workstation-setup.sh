@@ -60,10 +60,14 @@ chmod 600 ~/.ssh/*
 eval "$(ssh-agent)"
 ssh-add ~/.ssh/*
 
+# 1password rpm install
+sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
+sudo dnf install 1password
+
 ## install font
 sudo mkdir /usr/share/fonts/
-sudo cp ~/Dropbox/Fonts/CousineNerdFontMono-Regular.ttf /usr/share/fonts
-sudo cp ~/Dropbox/Fonts/FiraCodeNerdFontMono-Regular.ttf /usr/share/fonts
+sudo cp ~/Dropbox/Fonts/* /usr/share/fonts/
 sudo fc-cache -v
 
 ## install network manager connections
