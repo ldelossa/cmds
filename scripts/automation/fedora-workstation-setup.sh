@@ -24,7 +24,8 @@ sudo dnf install -y alacritty asciinema brightnessctl grim pavucontrol \
 					libmpdclient-devel grimshot blueman llvm-devel \
 					intel-media-driver wireshark way-shell upower-devel \
 					wireplumber-devel pulseaudio-libs-devel \
-					NetworkManager-libnm-devel kitty
+					NetworkManager-libnm-devel kitty libadwaita-devel \
+					gtk4-layer-shell-devel json-glib-devel 
 
 # flathub
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
