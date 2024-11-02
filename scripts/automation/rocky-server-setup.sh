@@ -103,6 +103,14 @@ git clone --recursive https://github.com/changs/slimzsh.git ~/.slimzsh
 curl -L https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker > /tmp/_docker
 sudo mv /tmp/_docker /usr/share/zsh/site-functions
 
+# docker buildx install
+cd /tmp || exit
+mkdir -p ~/.docker/cli-plugins
+cd ~/.docker/cli-plugins || exit
+curl -LO https://github.com/docker/buildx/releases/download/v0.18.0/buildx-v0.18.0.linux-amd64
+mv buildx* docker-buildx
+chmod u+x docker-buildx
+
 ## setup lua language server
 cd ~/git/lua || exit
 curl -LO https://github.com/LuaLS/lua-language-server/releases/download/3.6.11/lua-language-server-3.6.11-linux-x64.tar.gz

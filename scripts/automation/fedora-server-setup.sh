@@ -76,7 +76,7 @@ cd /tmp || exit
 cd /tmp || exit
 mkdir -p ~/.docker/cli-plugins
 cd ~/.docker/cli-plugins || exit
-curl -LO https://github.com/docker/buildx/releases/download/v0.14.1/buildx-v0.14.1.linux-amd64
+curl -LO https://github.com/docker/buildx/releases/download/v0.18.0/buildx-v0.18.0.linux-amd64
 mv buildx* docker-buildx
 chmod u+x docker-buildx
 
