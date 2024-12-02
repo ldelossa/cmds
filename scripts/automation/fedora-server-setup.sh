@@ -25,7 +25,7 @@ sudo dnf install -y bat bear clang clang-tools-extra docker-compose exa fd-find 
 					bpftrace et btop pip strongswan NetworkManager-strongswan \
 					NetworkManager-strongswan-gnome json-glib inotify-tools lldb \
 					bpftool nasm glibc-static glibc-devel kitty-terminfo \
-					kitty-shell-integration
+					kitty-shell-integration binutils-gold
 
 # qemu and kvm install
 sudo dnf groupinstall -y virtualization
