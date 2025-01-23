@@ -77,16 +77,16 @@ cd /tmp || exit
 cd /tmp || exit
 mkdir -p ~/.docker/cli-plugins
 cd ~/.docker/cli-plugins || exit
-curl -LO https://github.com/docker/buildx/releases/download/v0.18.0/buildx-v0.18.0.linux-amd64
+curl -LO https://github.com/docker/buildx/releases/download/v0.20.1/buildx-v0.20.1.linux-amd64
 mv buildx* docker-buildx
 chmod u+x docker-buildx
 
 ## setup lua language server
 cd ~/git/lua || exit
-curl -LO https://github.com/LuaLS/lua-language-server/releases/download/3.6.11/lua-language-server-3.6.11-linux-x64.tar.gz
+curl -LO https://github.com/LuaLS/lua-language-server/releases/download/3.13.5/lua-language-server-3.13.5-linux-x64.tar.gz
 mkdir lua-language-server
-tar -xvf lua-language-server-3.6.11-linux-x64.tar.gz -C lua-language-server
-rm -rf lua-language-server-3.6.11-linux-x64.tar.gz
+tar -xvf lua-language-server-3.13.5-linux-x64.tar.gz -C lua-language-server
+rm -rf lua-language-server-3.13.5-linux-x64.tar.gz
 cd /tmp || exit
 
 ## setup vscode extracted lsps

@@ -11,7 +11,7 @@ sudo dnf config-manager --add-repo=https://yum.fury.io/netdevops/ && \
 
 sudo dnf install -y epel-release && sudo dnf config-manager --set-enabled crb
 
-sudo dnf install -y bat bear clang clang-tools-extra exa fd-find fuse-sshfs \
+sudo dnf install -y bat bear clang clang-tools-extra fd-find fuse-sshfs \
 					htop jq nmap the_silver_searcher zsh rust pam-devel nnn scdoc meson flex bison \
 					procs npm llvm-devel gdb elfutils-libelf-devel openssl-devel dwarves zstd \
 					wireshark ripgrep ncurses-devel util-linux-user git lld python3-docutils strace \
@@ -44,6 +44,12 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo dnf -y install docker-ce docker-ce-cli containerd.io && \
 sudo systemctl enable docker && systemctl start docker
 
+log "Installing eza.."
+cd /tmp && \
+curl -LO https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz &&
+tar -xvf eza_x86_64-unknown-linux-gnu.tar.gz && \
+sudo mv eza /usr/local/bin
+
 # install golang
 log "Installing golang..."
 cd /tmp && git clone https://github.com/udhos/update-golang.git \
@@ -53,42 +59,28 @@ cd /tmp && git clone https://github.com/udhos/update-golang.git \
 # install dlv
 /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@latest
 
-# install kind
-log "Installing kind..."
-cd /tmp && \
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.23.0/kind-linux-amd64 && \
-chmod +x ./kind && \
-sudo mv ./kind /usr/local/bin
-
 # install kubectl
 log "Installing kubectl..."
-sudo dnf config-manager --add-repo=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/ && 	  \
-sudo rpm --import https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key && \
-sudo dnf install -y kubectl
-
-# install k9s
-log "Installing k9s..."
-cd /tmp  &&							\
-curl -LO https://github.com/derailed/k9s/releases/download/v0.32.4/k9s_Linux_amd64.tar.gz && \
-tar -xvf k9s_Linux_amd64.tar.gz &&    \
-chmod +x ./k9s &&						\
-sudo mv ./k9s /usr/local/bin	&&		\
-rm -rf k9s_Linux_amd64.tar.gz
+cd /tmp && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+&& sudo mv kubectl /usr/local/bin
 
 # install helm
 log "Installing helm..."
-cd /tmp && \
-curl -LO https://get.helm.sh/helm-v3.15.1-linux-amd64.tar.gz && \
-tar -xvf helm-v3.15.1-linux-amd64.tar.gz && \
-chmod +x ./linux-amd64/helm && \
-sudo mv ./linux-amd64/helm /usr/local/bin && \
-rm -rf helm-v3.8.0-linux-amd64.tar.gz
+curl -fsSL -o ~/git/go/get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod u+x ~/git/go/get_helm.sh
+sudo ~/git/go/get_helm.sh
 
 # git repos
 mkdir ~/git
 mkdir ~/git/go
 mkdir ~/git/c
 mkdir ~/git/lua
+
+# install k9s
+/usr/local/go/bin/go install github.com/derailed/k9s@latest
+
+# install kind
+/usr/local/go/bin/go install sigs.k8s.io/kind@latest
 
 # fzf
 log "Installing fzf..."
@@ -107,16 +99,16 @@ sudo mv /tmp/_docker /usr/share/zsh/site-functions
 cd /tmp || exit
 mkdir -p ~/.docker/cli-plugins
 cd ~/.docker/cli-plugins || exit
-curl -LO https://github.com/docker/buildx/releases/download/v0.18.0/buildx-v0.18.0.linux-amd64
+curl -LO https://github.com/docker/buildx/releases/download/v0.20.1/buildx-v0.20.1.linux-amd64
 mv buildx* docker-buildx
 chmod u+x docker-buildx
 
 ## setup lua language server
 cd ~/git/lua || exit
-curl -LO https://github.com/LuaLS/lua-language-server/releases/download/3.6.11/lua-language-server-3.6.11-linux-x64.tar.gz
+curl -LO https://github.com/LuaLS/lua-language-server/releases/download/3.13.5/lua-language-server-3.13.5-linux-x64.tar.gz
 mkdir lua-language-server
-tar -xvf lua-language-server-3.6.11-linux-x64.tar.gz -C lua-language-server
-rm -rf lua-language-server-3.6.11-linux-x64.tar.gz
+tar -xvf lua-language-server-3.13.5-linux-x64.tar.gz -C lua-language-server
+rm -rf lua-language-server-3.13.5-linux-x64.tar.gz
 cd /tmp || exit
 
 ## setup vscode extracted lsps
