@@ -14,7 +14,7 @@ function log() {
 # push local repository to remote.
 log "Pushing local repository to remote..."
 ssh "${ssh_host}" "mkdir -p $repo || true"
-rsync -e ssh --delete -azv "$repo"/ "${ssh_host}":"$repo"
+rsync -e ssh --delete --exclude '.git' -azv "$repo"/ "${ssh_host}":"$repo"
 
 log "Creating config based on current modules"
 ssh "${ssh_host}" "cd $repo && lsmod > mods.now && yes '' | make LSMOD=mods.now localmodconfig"

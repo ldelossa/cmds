@@ -16,7 +16,7 @@ function log() {
 log "Pushing local repository to remote..."
 ssh "${ssh_host}" "mkdir -p $(pwd) || true"
 
-rsync -e ssh --delete -azv "$(pwd)"/ ${ssh_host}:"$(pwd)"
+rsync -e ssh --delete --exclude '.git' -azv "$(pwd)"/ ${ssh_host}:"$(pwd)"
 
 log "Copying existing config file to local repository..."
 ssh "${ssh_host}" "cd $(pwd) && cp /boot/config-\$(uname -r) .config"
