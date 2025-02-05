@@ -62,7 +62,7 @@ cd /tmp && git clone https://github.com/udhos/update-golang.git \
 # install kubectl
 log "Installing kubectl..."
 cd /tmp && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
-&& sudo mv kubectl /usr/local/bin
+&& sudo mv kubectl /usr/local/bin && sudo chmod u+x /usr/local/bin/kubectl
 
 # install helm
 log "Installing helm..."
