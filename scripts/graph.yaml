@@ -695,3 +695,44 @@ commands:
         required: true
         aliases:
           - m
+
+#
+# Hosts
+#
+  - name: hosts
+    usage: Manipulate the hosts file on a linux/macOS system
+
+  - name: list
+    parent: hosts
+    usage: List entries in the hosts file
+    path: hosts/list.sh
+    desc: >
+      List the entries in the host file and displays an ID that can be used for
+      deletion.
+
+  - name: add
+    parent: hosts
+    usage: Add a hosts file entry
+    path: hosts/add.sh
+    desc: >
+      Adds a host file entry.
+      Providing space separated list of names is valid.
+    flags:
+      - usage: The IP address of the host
+        name: host
+        required: true
+      - usage: One or more names
+        name: name
+        required: true
+
+  - name: remove
+    parent: hosts
+    usage: Remove a host entry by ID.
+    path: hosts/remove.sh
+    desc: >
+      Remove an hosts file entry by ID.
+      Entries can be listed with the 'list' command.
+    flags:
+      - usage: The ID of the entry to remove
+        name: id
+        required: true
