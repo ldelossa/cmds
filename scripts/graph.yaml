@@ -202,6 +202,27 @@ commands:
         aliases:
           - c
 
+  - name: push
+    parent: git
+    path: git/push.sh
+    usage: Performs a git push while specifying the remote and local branch.
+    flags:
+      - usage: The remote to push the local branch to
+        name: remote
+        required: true
+        aliases:
+          - r
+      - usage: The local branch to push
+        name: local
+        required: true
+        aliases:
+          - l
+      - usage: The remote branch to push to
+        name: remote-branch
+        required: true
+        aliases:
+          - rb
+
   #
   # Github (gh) commands
   #
